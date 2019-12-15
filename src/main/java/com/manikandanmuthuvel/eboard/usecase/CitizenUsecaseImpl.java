@@ -1,5 +1,8 @@
 package com.manikandanmuthuvel.eboard.usecase;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import com.manikandanmuthuvel.eboard.contract.repository.EboardRepositoryContract;
 import com.manikandanmuthuvel.eboard.contract.usecase.CitizenUsecaseContract;
 import com.manikandanmuthuvel.eboard.model.Contender;
@@ -24,10 +27,14 @@ public class CitizenUsecaseImpl implements CitizenUsecaseContract{
 			eboardRepository.createContender(contender);
 		}		
 	}
-
 	@Override
 	public Contender citizenFindContenderById(String contenderId) {
 		return eboardRepository.findContenderBy(contenderId);
+	}
+	
+	@Override
+	public ArrayList<Contender> citizenFindAllContenders() {
+		return eboardRepository.findAllContenders();
 	}
 
 }

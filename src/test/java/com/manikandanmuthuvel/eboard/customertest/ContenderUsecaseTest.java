@@ -29,7 +29,7 @@ public class ContenderUsecaseTest {
 		contenderUsecase = eboardTestUtils.createContenderUsecase();
 	}
 	@Test
-	public void contenderPostManifestoWithMiniumNumberIdea() {
+	public void contenderPostManifestoWithMiniumNumberOfIdeas() {
 		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
 		Contender contender = eboardTestUtils.createContender(citizen);			
 		citizenUsecase.citizenNominatesAsContender(contender);
@@ -38,8 +38,34 @@ public class ContenderUsecaseTest {
 		
 		contenderUsecase.contenderPostManifesto(contender.getContenderId(), manifesto);
 		Contender actualContender = citizenUsecase.citizenFindContenderById(contender.getContenderId());
+		ArrayList<Idea> ideas = contenderUsecase.contenderGetsIdeasOfManifesto(actualContender.getContenderId());
+		assertThat(ideas.size(),is(numberOfIdeas));
+	}
+	@Test
+	public void contenderPostManifestoWithMaximumNumberOfIdeas() {
+		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
+		Contender contender = eboardTestUtils.createContender(citizen);			
+		citizenUsecase.citizenNominatesAsContender(contender);
+		int numberOfIdeas = 3;
+		Manifesto manifesto = eboardTestUtils.createManifesto(numberOfIdeas);
+		
+		contenderUsecase.contenderPostManifesto(contender.getContenderId(), manifesto);
+		Contender actualContender = citizenUsecase.citizenFindContenderById(contender.getContenderId());
 		ArrayList<Idea> ideas = contenderUsecase.contenderGetsIdeasOfManifesto(contender.getContenderId());
 		assertThat(ideas.size(),is(numberOfIdeas));
+	}
+	@Test
+	public void contenderSHOULDNOTbeAbleToPostManifestoWithMoreThanMaximumNumberOfIdeas() {
+		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
+		Contender contender = eboardTestUtils.createContender(citizen);			
+		citizenUsecase.citizenNominatesAsContender(contender);
+		int numberOfIdeas = 4;
+		Manifesto manifesto = eboardTestUtils.createManifesto(numberOfIdeas);
+		
+		contenderUsecase.contenderPostManifesto(contender.getContenderId(), manifesto);
+		Contender actualContender = citizenUsecase.citizenFindContenderById(contender.getContenderId());
+		ArrayList<Idea> ideas = contenderUsecase.contenderGetsIdeasOfManifesto(contender.getContenderId());
+		assertThat(ideas.size(),is(0));
 	}
 	
 }

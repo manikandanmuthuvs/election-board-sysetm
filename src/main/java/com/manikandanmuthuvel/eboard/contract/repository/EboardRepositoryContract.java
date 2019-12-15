@@ -1,6 +1,7 @@
 package com.manikandanmuthuvel.eboard.contract.repository;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.manikandanmuthuvel.eboard.model.Contender;
 import com.manikandanmuthuvel.eboard.model.Idea;
@@ -12,5 +13,6 @@ public interface EboardRepositoryContract {
 	public Contender findContenderBy(String contenderId);
 	public Manifesto findManifestoBy(String contenderId);
 	public ArrayList<Idea> findIdeasBy(String contenderId);
+	public ArrayList<Contender> findAllContenders();
 
 }

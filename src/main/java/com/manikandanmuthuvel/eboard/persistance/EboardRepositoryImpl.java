@@ -12,6 +12,7 @@ import com.manikandanmuthuvel.eboard.model.Manifesto;
 
 public class EboardRepositoryImpl implements EboardRepositoryContract{
 	Map<String,Contender> eboardRepository = new HashMap<String, Contender>();
+	ArrayList<Map<String,Contender>> listOfContenders = new ArrayList<Map<String,Contender>>();
 
 	@Override
 	public void createContender(Contender contender) {
@@ -32,6 +33,7 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 		}
 		return null;		
 	}
+	
 	@Override
 	public void postManifesto(String contenderId,Manifesto manifesto) {
 		Contender contender= null;
@@ -44,7 +46,7 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 			if(contenderKey.equals(contenderId)) {
 				contender = eboardRepository.get(contenderKey);
 				contender.setManifesto(manifesto);
-				eboardRepository.put(matchingContenderKey,contender);
+				eboardRepository.put(contender.getContenderId(),contender);
 				return;
 			}
 		}
@@ -94,5 +96,18 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 			}
 		}	
 		return ideas;
+	}
+	@Override
+	public ArrayList<Contender> findAllContenders() {
+		ArrayList<Contender> contenders = new ArrayList<>();
+
+		Set<String> keys = eboardRepository.keySet();
+		if(keys.isEmpty()) {
+			return contenders;
+		}
+		for(String key : keys) {
+			contenders.add(eboardRepository.get(key));			
+		}
+		return contenders;
 	}
 }

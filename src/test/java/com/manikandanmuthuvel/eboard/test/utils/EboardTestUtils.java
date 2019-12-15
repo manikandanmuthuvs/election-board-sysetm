@@ -24,8 +24,10 @@ public class EboardTestUtils {
 	EboardRepositoryContract eboardRepository = new EboardRepositoryImpl();
 	int MIN_VOTER_AGE = 18;
 	int MIN_NUMBEROF_IDEAS = 1;
+	int MAX_NUMBEROF_IDEAS = 3;
+
 	
-	String[] ideas = new String[] {"Commitment","Empathy","Openness"};
+	String[] ideas = new String[] {"Commitment","Empathy","Openness","Courage"};
 
 	public CitizenUsecaseContract createCitizenUsecase() {
 		CitizenUsecaseContract citizenUsecase = CitizenUsecaseImpl.builder()
@@ -38,6 +40,7 @@ public class EboardTestUtils {
 		ContenderUsecaseImpl contenderUsecase = ContenderUsecaseImpl.builder()
 				.eboardRepository(eboardRepository)
 				.MIN_NUMBEROF_IDEAS(MIN_NUMBEROF_IDEAS)
+				.MAX_NUMBEROF_IDEAS(MAX_NUMBEROF_IDEAS)
 				.build();
 		return contenderUsecase;
 	}
