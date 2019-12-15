@@ -1,0 +1,34 @@
+package com.manikandanmuthuvel.eboard.usecase;
+
+import com.manikandanmuthuvel.eboard.contract.repository.EboardRepositoryContract;
+import com.manikandanmuthuvel.eboard.contract.usecase.CitizenUsecaseContract;
+import com.manikandanmuthuvel.eboard.model.Contender;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CitizenUsecaseImpl implements CitizenUsecaseContract{
+
+	private EboardRepositoryContract eboardRepository;
+	private Integer MIN_VOTER_AGE = 18;
+	
+	@Override
+	public void citizenNominatesAsContender(Contender contender) {
+		if(contender.getContender().getAge() >= MIN_VOTER_AGE) {
+			eboardRepository.create(contender);
+		}
+		
+	}
+
+	@Override
+	public Contender citizenFindContenderById(String contenderId) {
+		return eboardRepository.findBy(contenderId);
+	}
+
+}
