@@ -1,5 +1,8 @@
 package com.manikandanmuthuvel.eboard.model;
 
+import java.util.Map;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Contender {
-	  private String contenderId; 
-	  private Citizen contender;
-	  private Manifesto manifesto;
+public class Idea {
+	  String id;
+	  String idea;	 
 }
-

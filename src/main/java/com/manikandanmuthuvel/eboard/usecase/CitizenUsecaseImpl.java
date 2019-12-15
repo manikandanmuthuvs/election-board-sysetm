@@ -21,14 +21,13 @@ public class CitizenUsecaseImpl implements CitizenUsecaseContract{
 	@Override
 	public void citizenNominatesAsContender(Contender contender) {
 		if(contender.getContender().getAge() >= MIN_VOTER_AGE) {
-			eboardRepository.create(contender);
-		}
-		
+			eboardRepository.createContender(contender);
+		}		
 	}
 
 	@Override
 	public Contender citizenFindContenderById(String contenderId) {
-		return eboardRepository.findBy(contenderId);
+		return eboardRepository.findContenderBy(contenderId);
 	}
 
 }
