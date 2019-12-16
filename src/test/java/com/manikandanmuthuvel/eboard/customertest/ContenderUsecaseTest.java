@@ -116,5 +116,40 @@ public class ContenderUsecaseTest {
 		contenderUsecase.contenderSendsEmailToFollowers(mail);				
 		assertThat(mail,is(not(nullValue())));
 	}
+	@Test
+	public void contenderGetsRemovedFromContestingElectionWhenMoreThan3VotersRateAnIdeaLessThan5Rating() {
+		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
+		Contender contender = eboardTestUtils.createContender(citizen);
+		String contenderId = contender.getContenderId();
+		citizenUsecase.citizenNominatesAsContender(contender);		
+		int numberOfIdeas = 3;
+		Manifesto manifesto = eboardTestUtils.createManifesto(numberOfIdeas);		
+		contenderUsecase.contenderPostManifesto(contender.getContenderId(), manifesto);	
+		ArrayList<Idea> actualIdeas = contenderUsecase.contenderGetsIdeasOfManifesto(contenderId);
+		Idea idea1 = actualIdeas.get(0);		
+		
+		Rate  rate = eboardTestUtils.createRate(9, citizen);
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen, contenderId, idea1.getId(), rate);
+		
+		
+		Citizen voter1 = eboardTestUtils.createCitizen("voter1","muthuvel",18,"voter1@domain.com");
+		Rate  rate1 = eboardTestUtils.createRate(4, voter1);
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(voter1, contenderId, idea1.getId(), rate1);
+		
+		Citizen voter2 = eboardTestUtils.createCitizen("voter2","muthuvel",18,"voter2@domain.com");
+		Rate rate2 = eboardTestUtils.createRate(3, voter2);		
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(voter2, contenderId, idea1.getId(), rate2);
+		
+		Citizen voter3 = eboardTestUtils.createCitizen("voter3","muthuvel",18,"voter3@domain.com");
+		Rate rate3 = eboardTestUtils.createRate(1, voter3);		
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(voter3, contenderId, idea1.getId(), rate3);
+
+		Citizen voter4 = eboardTestUtils.createCitizen("voter4","muthuvel",18,"voter4@domain.com");
+		Rate rate4 = eboardTestUtils.createRate(2, voter4);		
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(voter4, contenderId, idea1.getId(), rate4);
+	
+		Contender actualContenderAfterRating = citizenUsecase.citizenFindContenderById(contenderId);
+		assertThat(actualContenderAfterRating,is(nullValue()));
+	}
 	
 }

@@ -16,6 +16,7 @@ import com.manikandanmuthuvel.eboard.model.Rate;
 public class EboardRepositoryImpl implements EboardRepositoryContract{
 	Map<String,Contender> eboardRepository = new HashMap<String, Contender>();
 	ArrayList<Map<String,Contender>> listOfContenders = new ArrayList<Map<String,Contender>>();
+	ArrayList<Citizen> checkNumberOfFollower = new ArrayList<Citizen>();
 
 	@Override
 	public void createContender(Contender contender) {
@@ -163,19 +164,24 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 			actualIdea.setRating(rating);
 		}
 		else {
-			Set<String> rateKeys = actualIdea.getRating().keySet();		
-			for (String rateKey : rateKeys) {
-				if(rateKey.equals(rate.getId())) {
-					actualIdea.getRating().put(rate.getId(), rate);
-				}else {
-					rating.put(rate.getId(),rate);
-					actualIdea.getRating().put(rate.getId(), rate);
-				}
-			}
+			Set<String> rateKeys = actualIdea.getRating().keySet();
+			updateRate(rate, rating, actualIdea, rateKeys);
 		}
 		setAverageRatingOfAnIdeaOfManifesto(contenderId,actualIdea);
 		setFinalRatingOfContender(contenderId,actualIdea);
 		setFollwers(citizen, contenderId, actualIdea, rate);
+	}
+
+	private void updateRate(Rate rate, Map<String, Rate> rating, Idea actualIdea, Set<String> rateKeys) {
+		for (String rateKey : rateKeys) {
+			if(rateKey.equals(rate.getId())) {
+				actualIdea.getRating().put(rate.getId(), rate);
+			}else {
+				rating.put(rate.getId(),rate);
+				actualIdea.getRating().put(rate.getId(), rate);
+				rateKeys.remove(rateKey);
+			}
+		}
 	}
 	@Override
 	public void addIdea(String contenderId,Idea newIdea) {
@@ -210,7 +216,7 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 		Follower follower = new Follower();
 		Contender contender = getContender(contenderId);
 		
-		if(actualIdea.getRating().get(rate.getId().toString()).getRating() > 5) {			
+		if(actualIdea.getRating().get(rate.getId()).getRating() > 5) {			
 			if(contender.getFollower() == null) {
 				firstFollower.put(citizen.getId().toString(),citizen);
 				follower.setFollowers(firstFollower);
@@ -220,7 +226,13 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 				contender.getFollower().getFollowers().put(citizen.getId().toString(),citizen);
 			}
 		}
-		if(actualIdea.getRating().get(rate.getId().toString()).getRating() < 5) {	
+		if(actualIdea.getRating().get(rate.getId()).getRating() < 5) {	
+			checkNumberOfFollower.add(citizen);
+			if(checkNumberOfFollower.size() > 3) {
+				contender = null;
+				eboardRepository.put(contenderId, contender);
+				return;
+			}
 			if(contender.getFollower() != null) {
 				contender.getFollower().getFollowers().remove(citizen.getId(), citizen);
 			}

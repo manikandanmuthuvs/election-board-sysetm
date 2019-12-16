@@ -225,6 +225,5 @@ public class CitizenUsecaseTest {
 		
 		Contender actualContenderAfterRating = citizenUsecase.citizenFindContenderById(contenderId);
 		assertThat(actualContenderAfterRating.getFinalRating(),is(18.5));
-
 	}
 }
