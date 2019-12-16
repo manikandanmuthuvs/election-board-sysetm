@@ -173,6 +173,8 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 				}
 			}
 		}
+		setAverageRatingOfAnIdeaOfManifesto(contenderId,actualIdea);
+		setFinalRatingOfContender(contenderId,actualIdea);
 		setFollwers(citizen, contenderId, actualIdea, rate);
 	}
 	@Override
@@ -225,6 +227,34 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 		
 		}
 		contender.getManifesto().getIdeas().put(actualIdea.getId(), actualIdea);
+		eboardRepository.put(contenderId, contender);
+	}
+	@Override
+	public void setAverageRatingOfAnIdeaOfManifesto(String contenderId,Idea actualIdea) {
+		double averageRating = 0;
+		double numberOfVoters = 0;
+		Contender contender = getContender(contenderId);
+
+		Set<String> rateKeys = actualIdea.getRating().keySet();		
+		for (String rateKey : rateKeys) {
+			averageRating += actualIdea.getRating().get(rateKey).getRating();
+			numberOfVoters += 1;
+		}
+		averageRating = averageRating / numberOfVoters;
+		actualIdea.setAverageRating(averageRating);
+		contender.getManifesto().getIdeas().put(actualIdea.getId().toString(), actualIdea);
+		eboardRepository.put(contenderId, contender);
+	}
+	@Override
+	public void setFinalRatingOfContender(String contenderId,Idea actualIdea) {
+		double finalRating = 0;
+		Contender contender = getContender(contenderId);
+
+		Set<String> ideasKeys = contender.getManifesto().getIdeas().keySet();
+		for (String ideaKey : ideasKeys) {
+			finalRating += contender.getManifesto().getIdeas().get(ideaKey).getAverageRating();
+		}
+		contender.setFinalRating(finalRating);
 		eboardRepository.put(contenderId, contender);
 	}
 }

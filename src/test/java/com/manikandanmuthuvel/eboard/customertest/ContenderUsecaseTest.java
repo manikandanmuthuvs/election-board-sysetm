@@ -87,7 +87,6 @@ public class ContenderUsecaseTest {
 		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
 		Contender contender = eboardTestUtils.createContender(citizen);
 		String contenderId = contender.getContenderId();
-
 		citizenUsecase.citizenNominatesAsContender(contender);		
 		int numberOfIdeas = 2;
 		Manifesto manifesto = eboardTestUtils.createManifesto(numberOfIdeas);		
@@ -96,16 +95,16 @@ public class ContenderUsecaseTest {
 		Idea idea1 = ideas.get(0);
 		int setRating1 = 8;
 		Rate rate1 = eboardTestUtils.createRate(setRating1);	
-		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen,contenderId,idea1.getId(),rate1);
-	
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen,contenderId,idea1.getId(),rate1);	
 		Idea idea2 = ideas.get(1);
 		int setRating2 = 6;
 		Rate rate2 = eboardTestUtils.createRate(setRating2);	
 		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen,contenderId,idea2.getId(),rate2);
 		
-		Idea newIdea = eboardTestUtils.createIdea("Equality");
-		contenderUsecase.contenderAddsIdeaInManifesto(contender.getContenderId(), newIdea);
 		
+		Idea newIdea = eboardTestUtils.createIdea("Equality");
+		
+		contenderUsecase.contenderAddsIdeaInManifesto(contender.getContenderId(), newIdea);		
 		String contenderFirstName = contender.getContender().getFirstName();
 		String contenderLastName = contender.getContender().getLastName().toUpperCase();
 		String mailFrom = contender.getContender().getEmail();
@@ -113,45 +112,9 @@ public class ContenderUsecaseTest {
 		String mailBody = newIdea.getIdea().toString();
 	
 		ArrayList<String> mailTofollowersEmailIds = contenderUsecase.contenderGetsAllOfFollowersEmail(contenderId);
-		
 		Mail mail = eboardTestUtils.createMail(mailFrom, mailTofollowersEmailIds, mailTitle, mailBody);
-		
-		contenderUsecase.contenderSendsEmailToFollowers(mail);
-				
+		contenderUsecase.contenderSendsEmailToFollowers(mail);				
 		assertThat(mail,is(not(nullValue())));
-		
-		//When citizen rate one of the idea of manifesto
-
 	}
-//	@Test
-//	public void contenderSendsMailToFollowersWhenAddingNewIdeaInManifesto() {
-////		Citizen citizen = eboardTestUtils.createCitizen("manikandan","muthuvel",18,"test@domain.com");
-////		Integer WITH_NUMBER_OF_IDEAS = 2;
-////		Manifesto manifesto = eboardTestUtils.createManifesto(WITH_NUMBER_OF_IDEAS);
-////		Contender contender = eboardTestUtils.createContender(citizen, manifesto, null, null, null);
-////		
-////		citizenUsecase.citizenNominatesAsContender(contender);
-////		contenderUsecase.contenderPostManifesto(contender.getContenderId().toString(), manifesto);
-////		
-//		Contender contender = eboardTestUtils.CitizenNominatesAsContenderWhoPostManifestoAndCitizenRateIdea();
-//
-//		Idea newIdea = eboardTestUtils.createIdea("Openness");
-//		contenderUsecase.contenderAddsIdeaInManifesto(contender.getContenderId().toString(), newIdea);
-//		
-//		String contenderId = contender.getContenderId().toString();
-//		String contenderFirstName = contender.getContender().getFirstName();
-//		String contenderLastName = contender.getContender().getLastName().toUpperCase();
-//		String mailFrom = contender.getContender().getEmail();
-//		String mailTitle = "the contender, " + contenderFirstName + "" + contenderLastName + " you are following has posted new idea";
-//		String mailBody = newIdea.getIdea().toString();
-//	
-//		ArrayList<String> mailTofollowersEmailIds = contenderUsecase.contenderGetsAllOfFollowersEmail(contenderId);
-//		
-//		Mail mail = eboardTestUtils.createMail(mailFrom, mailTofollowersEmailIds, mailTitle, mailBody);
-//		
-//		contenderUsecase.contenderSendsEmailToFollowers(mail);
-//				
-//		assertThat(mail,is(not(nullValue())));
-//	}
 	
 }

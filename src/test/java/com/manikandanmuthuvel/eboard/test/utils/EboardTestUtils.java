@@ -85,15 +85,23 @@ public class EboardTestUtils {
 				.build();
 		return ideaBuilder;
 	}
-	public Rate createRate(int rating) {
+	public Rate createRate(int rating, Citizen voter) {
+		Rate rate = Rate.builder()
+				.id(UUID.randomUUID().toString())
+				.rating(rating)
+				.voter(voter)
+				.build();
+		return rate;
+	}
+	public Rate createRate(double rating) {
 		Rate rate = Rate.builder()
 				.id(UUID.randomUUID().toString())
 				.rating(rating)
 				.build();
 		return rate;
 	}
-	public int getRating(Idea idea, Rate rate) {
-		int rateing=0;
+	public double getRating(Idea idea, Rate rate) {
+		double rateing=0;
 		Set<String> rateKeys = idea.getRating().keySet();		
 		for (String rateKey : rateKeys) {
 			if(rateKey.equals(rate.getId())) {

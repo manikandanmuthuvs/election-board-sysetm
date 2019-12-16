@@ -14,6 +14,7 @@ public class Contender {
 	  private String contenderId; 
 	  private Citizen contender;
 	  private Manifesto manifesto;
+	  private double finalRating;
 	  private Follower follower;
 }
 

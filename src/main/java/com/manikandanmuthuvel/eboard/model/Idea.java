@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Idea {
 	  String id;
-	  String idea;	
+	  String idea;
+	  double averageRating;
 	  Map<String,Rate> rating;
 }

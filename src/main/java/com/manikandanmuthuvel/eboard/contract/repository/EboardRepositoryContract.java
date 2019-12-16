@@ -22,5 +22,6 @@ public interface EboardRepositoryContract {
 	public void setRating(Citizen citizen,String contenderId,String ideaId, Rate rate);
 	public void addIdea(String contenderId,Idea newIdea);
 	public ArrayList<String> getFollowersEmail(String contenderId);
-
+	public void setAverageRatingOfAnIdeaOfManifesto(String contenderId,Idea actualIdea);
+	public void setFinalRatingOfContender(String contenderId,Idea actualIdea);
 }
