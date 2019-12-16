@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import com.manikandanmuthuvel.eboard.contract.repository.EboardRepositoryContract;
@@ -14,6 +15,7 @@ import com.manikandanmuthuvel.eboard.model.Citizen;
 import com.manikandanmuthuvel.eboard.model.Contender;
 import com.manikandanmuthuvel.eboard.model.Idea;
 import com.manikandanmuthuvel.eboard.model.Manifesto;
+import com.manikandanmuthuvel.eboard.model.Rate;
 import com.manikandanmuthuvel.eboard.persistance.EboardRepositoryImpl;
 import com.manikandanmuthuvel.eboard.usecase.CitizenUsecaseImpl;
 import com.manikandanmuthuvel.eboard.usecase.ContenderUsecaseImpl;
@@ -81,5 +83,22 @@ public class EboardTestUtils {
 				.idea(idea)	
 				.build();
 		return ideaBuilder;
+	}
+	public Rate createRate(int rating) {
+		Rate rate = Rate.builder()
+				.id(UUID.randomUUID().toString())
+				.rating(rating)
+				.build();
+		return rate;
+	}
+	public int getRating(Idea idea, Rate rate) {
+		int rateing=0;
+		Set<String> rateKeys = idea.getRating().keySet();		
+		for (String rateKey : rateKeys) {
+			if(rateKey.equals(rate.getId())) {
+				rateing = rate.getRating();
+			}
+		}
+		return rateing;
 	}
 }

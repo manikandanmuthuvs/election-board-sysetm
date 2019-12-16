@@ -52,6 +52,26 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 		}
 	}
 	@Override
+	public Idea getIdea(String contenderId,String ideaId) {
+		Contender contender= null;
+		Manifesto availableManifesto = null;
+		Idea availableIdea= null;
+
+		Set<String> keys = eboardRepository.keySet();
+		if(keys.isEmpty()) {
+			contender = eboardRepository.get(contenderId);
+			return null;
+		}
+		for(String key : keys) {
+			if(key.equals(contenderId)) {
+				contender = eboardRepository.get(key);
+				availableManifesto = contender.getManifesto();
+				availableIdea = availableManifesto.getIdeas().get(ideaId);
+			}
+		}
+		return availableIdea;
+	}
+	@Override
 	public Manifesto findManifestoBy(String contenderId) {
 		Contender contender= null;
 		Manifesto availableManifesto = null;
@@ -97,6 +117,7 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 		}	
 		return ideas;
 	}
+	
 	@Override
 	public ArrayList<Contender> findAllContenders() {
 		ArrayList<Contender> contenders = new ArrayList<>();

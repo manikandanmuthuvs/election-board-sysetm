@@ -14,5 +14,7 @@ public interface EboardRepositoryContract {
 	public Manifesto findManifestoBy(String contenderId);
 	public ArrayList<Idea> findIdeasBy(String contenderId);
 	public ArrayList<Contender> findAllContenders();
+	public Idea getIdea(String contenderId,String ideaId);
+
 
 }

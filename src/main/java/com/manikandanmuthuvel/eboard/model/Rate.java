@@ -1,6 +1,5 @@
 package com.manikandanmuthuvel.eboard.model;
 
-import java.util.Map;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Idea {
-	  String id;
-	  String idea;	
-	  Map<String,Rate> rating;
+public class Rate {
+	private String id;
+	private int rating;
 }
