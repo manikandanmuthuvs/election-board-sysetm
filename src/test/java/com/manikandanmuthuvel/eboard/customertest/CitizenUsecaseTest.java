@@ -189,8 +189,42 @@ public class CitizenUsecaseTest {
 		Idea idea3 = actualIdeas.get(2);
 		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen, contenderId, idea3.getId(), rate4);
 		
-		Idea actualIdeaAfterAfterOfRating = citizenUsecase.CitizenGetAnIdeaOfContenderManifesto(contenderId, idea1.getId());
-		assertThat(actualIdeaAfterAfterOfRating.getAverageRating(),is(5.5));
+		Idea actualIdeaAfterRating = citizenUsecase.CitizenGetAnIdeaOfContenderManifesto(contenderId, idea1.getId());
+		assertThat(actualIdeaAfterRating.getAverageRating(),is(5.5));
+
+	}
+	@Test
+	public void citizenGetFinalRatingOfContender() {
+		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
+		Contender contender = eboardTestUtils.createContender(citizen);
+		String contenderId = contender.getContenderId();
+		citizenUsecase.citizenNominatesAsContender(contender);		
+		int numberOfIdeas = 3;
+		Manifesto manifesto = eboardTestUtils.createManifesto(numberOfIdeas);		
+		contenderUsecase.contenderPostManifesto(contender.getContenderId(), manifesto);	
+		ArrayList<Idea> actualIdeas = contenderUsecase.contenderGetsIdeasOfManifesto(contenderId);
+		Idea idea1 = actualIdeas.get(0);		
+
+		Citizen voter1 = eboardTestUtils.createCitizen("voter1","muthuvel",18,"voter1@domain.com");
+		Rate  rate1 = eboardTestUtils.createRate(7, voter1);
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen, contenderId, idea1.getId(), rate1);
+		
+		Citizen voter2 = eboardTestUtils.createCitizen("voter2","muthuvel",18,"voter2@domain.com");
+		Rate rate2 = eboardTestUtils.createRate(4, voter2);		
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen, contenderId, idea1.getId(), rate2);
+
+		Idea idea2 = actualIdeas.get(1);
+		Citizen voter3 = eboardTestUtils.createCitizen("voter3","muthuvel",18,"voter3@domain.com");
+		Rate  rate3 = eboardTestUtils.createRate(7, voter3);
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen, contenderId, idea2.getId(), rate1);
+		
+		Citizen voter4 = eboardTestUtils.createCitizen("voter4","muthuvel",18,"voter4@domain.com");
+		Rate rate4 = eboardTestUtils.createRate(6, voter4);
+		Idea idea3 = actualIdeas.get(2);
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen, contenderId, idea3.getId(), rate4);
+		
+		Contender actualContenderAfterRating = citizenUsecase.citizenFindContenderById(contenderId);
+		assertThat(actualContenderAfterRating.getFinalRating(),is(18.5));
 
 	}
 }
