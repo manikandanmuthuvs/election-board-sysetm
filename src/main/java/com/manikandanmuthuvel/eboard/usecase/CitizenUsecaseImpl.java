@@ -10,6 +10,7 @@ import com.manikandanmuthuvel.eboard.contract.repository.EboardRepositoryContrac
 import com.manikandanmuthuvel.eboard.contract.usecase.CitizenUsecaseContract;
 import com.manikandanmuthuvel.eboard.model.Citizen;
 import com.manikandanmuthuvel.eboard.model.Contender;
+import com.manikandanmuthuvel.eboard.model.Follower;
 import com.manikandanmuthuvel.eboard.model.Idea;
 import com.manikandanmuthuvel.eboard.model.Manifesto;
 import com.manikandanmuthuvel.eboard.model.Rate;
@@ -44,27 +45,8 @@ public class CitizenUsecaseImpl implements CitizenUsecaseContract{
 		return eboardRepository.findAllContenders();
 	}
 	@Override
-	public void CitizenRateAnIdeaOfContenderManifesto(String contenderId,String ideaId, Rate rate) {
-		Map<String,Rate> rating = new HashMap<String, Rate>();
-		Map<String,Rate> actualRating = new HashMap<String, Rate>();
-
-		Idea actualIdea = eboardRepository.getIdea(contenderId, ideaId);
-		actualRating = actualIdea.getRating();
-		if(actualRating == null) {
-			rating.put(rate.getId(),rate);
-			actualIdea.setRating(rating);
-		}
-		else {
-			Set<String> rateKeys = actualIdea.getRating().keySet();		
-			for (String rateKey : rateKeys) {
-				if(rateKey.equals(rate.getId())) {
-					actualIdea.getRating().put(rate.getId(), rate);
-				}else {
-					rating.put(rate.getId(),rate);
-					actualIdea.getRating().put(rate.getId(), rate);
-				}
-			}
-		}	
+	public void CitizenRateAnIdeaOfContenderManifesto(Citizen citizen,String contenderId,String ideaId, Rate rate) {
+		eboardRepository.setRating(citizen,contenderId, ideaId, rate);
 	}
 	@Override
 	public Idea CitizenGetAnIdeaOfContenderManifesto(String contenderId,String ideaId) {

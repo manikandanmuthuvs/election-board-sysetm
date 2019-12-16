@@ -68,7 +68,7 @@ public class CitizenUsecaseTest {
 		assertThat(actualContenders.size(),is(numberOfContenders));
 	}
 	@Test
-	public void citizenRateAnIdeaOfContenderManifesto() {
+	public void citizenRateAnIdeaOfCOntenerManfesto() {
 		// Given the citizen, contender and her/him manifesto of max number of ideas
 		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
 		Contender contender = eboardTestUtils.createContender(citizen);
@@ -82,7 +82,7 @@ public class CitizenUsecaseTest {
 		Rate rate = eboardTestUtils.createRate(setRating);	
 		
 		//When citizen rate one of the idea of manifesto
-		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(contender.getContenderId(),idea.getId(),rate);
+		citizenUsecase.CitizenRateAnIdeaOfContenderManifesto(citizen,contender.getContenderId(),idea.getId(),rate);
 		
 		//Then the rate should be updated in the rating ofidea
 		ArrayList<Idea> actualIdeas = contenderUsecase.contenderGetsIdeasOfManifesto(contender.getContenderId());
@@ -90,5 +90,6 @@ public class CitizenUsecaseTest {
 		int actualRating = eboardTestUtils.getRating(actualIdea, rate);	
 		assertThat(actualRating,is(setRating));
 	}
+	
 	
 }

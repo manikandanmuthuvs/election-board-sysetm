@@ -12,7 +12,7 @@ public interface CitizenUsecaseContract {
 	public void citizenNominatesAsContender(Contender contender);
 	public Contender citizenFindContenderById(String contenderId);
 	public ArrayList<Contender> citizenFindAllContenders();
-	public void CitizenRateAnIdeaOfContenderManifesto(String contenderId,String ideaId, Rate rating);
+	public void CitizenRateAnIdeaOfContenderManifesto(Citizen citizen, String contenderId,String ideaId, Rate rating);
 	public Idea CitizenGetAnIdeaOfContenderManifesto(String contenderId,String ideaId);
 
 }
