@@ -55,6 +55,19 @@ public class ContenderUsecaseTest {
 		assertThat(ideas.size(),is(numberOfIdeas));
 	}
 	@Test
+	public void contenderFailsToPostManifestoWithMoreThanMaximumNumberOfIdeas() {
+		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
+		Contender contender = eboardTestUtils.createContender(citizen);			
+		citizenUsecase.citizenNominatesAsContender(contender);
+		int numberOfIdeas = 4;
+		Manifesto manifesto = eboardTestUtils.createManifesto(numberOfIdeas);
+		
+		contenderUsecase.contenderPostManifesto(contender.getContenderId(), manifesto);
+		Contender actualContender = citizenUsecase.citizenFindContenderById(contender.getContenderId());
+		ArrayList<Idea> ideas = contenderUsecase.contenderGetsIdeasOfManifesto(contender.getContenderId());
+		assertThat(ideas.size(),is(0));
+	}
+	@Test
 	public void contenderSHOULDNOTbeAbleToPostManifestoWithMoreThanMaximumNumberOfIdeas() {
 		Citizen citizen = eboardTestUtils.createCitizen("Rajni", "superstar", 70, "rajni@superstar.com");
 		Contender contender = eboardTestUtils.createContender(citizen);			

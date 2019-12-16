@@ -15,6 +15,5 @@ public class Contender {
 	  private Citizen contender;
 	  private Manifesto manifesto;
 	  private Follower follower;
-
 }
 

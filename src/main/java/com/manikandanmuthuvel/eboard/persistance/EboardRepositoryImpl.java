@@ -173,9 +173,9 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 				}
 			}
 		}
-		contender.getManifesto().getIdeas().put(actualIdea.getId(), actualIdea);
 		setFollwers(citizen, contenderId, actualIdea, rate);
 	}
+	
 	@Override
 	public void setFollwers(Citizen citizen, String contenderId, Idea actualIdea, Rate rate)
 	{
@@ -194,15 +194,12 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 			}
 		}
 		if(actualIdea.getRating().get(rate.getId().toString()).getRating() < 5) {	
-			if(contender.getFollower() == null) {
-				firstFollower.put(citizen.getId().toString(),citizen);
-				follower.setFollowers(firstFollower);
-				contender.setFollower(follower);
+			if(contender.getFollower() != null) {
+				contender.getFollower().getFollowers().remove(citizen.getId(), citizen);
 			}
-			else {				
-				contender.getFollower().getFollowers().put(citizen.getId().toString(),citizen);
-			}
+		
 		}
+		contender.getManifesto().getIdeas().put(actualIdea.getId(), actualIdea);
 		eboardRepository.put(contenderId, contender);
 	}
 }
