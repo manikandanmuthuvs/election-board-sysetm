@@ -175,7 +175,32 @@ public class EboardRepositoryImpl implements EboardRepositoryContract{
 		}
 		setFollwers(citizen, contenderId, actualIdea, rate);
 	}
-	
+	@Override
+	public void addIdea(String contenderId,Idea newIdea) {
+		Contender contender= null;
+		Manifesto manifesto = null;
+		Idea availableIdea = null;
+		Map<String, Idea> newIdeaMap = new HashMap<>();
+		ArrayList<Idea> availableIdeas = new ArrayList<>();
+
+		contender = eboardRepository.get(contenderId);
+		manifesto = contender.getManifesto();
+		manifesto.getIdeas().put(newIdea.getId().toString(), newIdea);
+		eboardRepository.put(contenderId,contender);
+	}
+	@Override
+	public ArrayList<String> getFollowersEmail(String contenderId) {
+		ArrayList<String> email = new ArrayList<String>();
+		Contender contender = eboardRepository.get(contenderId);
+		if(contender.getFollower() != null) {
+			Map<String,Citizen> followers = contender.getFollower().getFollowers();
+			Set<String> followersKeys = followers.keySet();
+			for(String followerKey : followersKeys) {
+				email.add(followers.get(followerKey).getEmail());
+			}
+		}		
+		return email;
+	}
 	@Override
 	public void setFollwers(Citizen citizen, String contenderId, Idea actualIdea, Rate rate)
 	{

@@ -7,6 +7,7 @@ import com.manikandanmuthuvel.eboard.contract.repository.EboardRepositoryContrac
 import com.manikandanmuthuvel.eboard.contract.usecase.ContenderUsecaseContract;
 import com.manikandanmuthuvel.eboard.model.Contender;
 import com.manikandanmuthuvel.eboard.model.Idea;
+import com.manikandanmuthuvel.eboard.model.Mail;
 import com.manikandanmuthuvel.eboard.model.Manifesto;
 
 import lombok.AllArgsConstructor;
@@ -39,7 +40,25 @@ public class ContenderUsecaseImpl implements ContenderUsecaseContract{
 	public Manifesto contenderGetsManifesto(String contenderId) {
 		return eboardRepository.findManifestoBy(contenderId);
 	}
-	
+	@Override
+	public void contenderAddsIdeaInManifesto(String contenderId, Idea newIdea){
+		ArrayList<Idea> ideas = eboardRepository.findIdeasBy(contenderId);
+		if(ideas.size() < MAX_NUMBEROF_IDEAS) {
+			eboardRepository.addIdea(contenderId, newIdea);	
+		}
+	}
+	@Override
+	public void contenderSendsEmailToFollowers(Mail emails) {
+		ArrayList<String> emailTo = new ArrayList<String>();
+		emailTo = emails.getTo();
+		for (String email : emailTo) {
+			System.out.println(emails.getFrom() + " " + email + " " + emails.getTitle() + " " + emails.getBody() );
+		}
+	}
+	@Override
+	public ArrayList<String> contenderGetsAllOfFollowersEmail(String contenderId) {
+		return eboardRepository.getFollowersEmail(contenderId);
+	}
 	private ArrayList<Idea> checkNumberOfIdeasInManifesto(Manifesto manifesto){
 		Idea availableIdea = null;
 		ArrayList<Idea> ideas = new ArrayList<>();

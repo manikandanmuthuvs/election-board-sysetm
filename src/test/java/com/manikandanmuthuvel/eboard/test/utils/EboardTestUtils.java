@@ -14,6 +14,7 @@ import com.manikandanmuthuvel.eboard.contract.usecase.CitizenUsecaseContract;
 import com.manikandanmuthuvel.eboard.model.Citizen;
 import com.manikandanmuthuvel.eboard.model.Contender;
 import com.manikandanmuthuvel.eboard.model.Idea;
+import com.manikandanmuthuvel.eboard.model.Mail;
 import com.manikandanmuthuvel.eboard.model.Manifesto;
 import com.manikandanmuthuvel.eboard.model.Rate;
 import com.manikandanmuthuvel.eboard.persistance.EboardRepositoryImpl;
@@ -100,5 +101,14 @@ public class EboardTestUtils {
 			}
 		}
 		return rateing;
+	}
+	public Mail createMail(String from, ArrayList<String> to, String title, String body) {
+		Mail mail = Mail.builder()
+				.from(from)
+				.to(to)
+				.title(title)
+				.body(body)
+				.build();
+		return mail;
 	}
 }
